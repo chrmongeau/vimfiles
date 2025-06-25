@@ -9,10 +9,6 @@ endif
 let &directory = '.,' . s:vim_tmp
 let &backupdir = s:vim_tmp
 
-" Pathogen
-call pathogen#infect()
-call pathogen#helptags()
-
 " vimwiki
 let g:vimwiki_folding=1
 
