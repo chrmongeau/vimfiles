@@ -1,3 +1,14 @@
+" Define tmp dir (for `directory` and `backupdir`
+let s:vim_tmp = expand('~/tmp/vim')
+
+" Check if directory exists, if not, create it
+if !isdirectory(s:vim_tmp)
+    call mkdir(s:vim_tmp, 'p')
+endif
+
+let &directory = '.,' . s:vim_tmp
+let &backupdir = s:vim_tmp
+
 " Pathogen
 call pathogen#infect()
 call pathogen#helptags()
@@ -40,9 +51,6 @@ set guicursor=a:block-blinkon0
 
 set helpheight=15
 
-" swap and tmp files
-set directory=.,~/tmp/vim
-set backupdir=~/tmp/vim
 
 "backupdir=expand("%:p:h")
 ".fnamemodify(expand("%:p"),":gs?/?-?")
