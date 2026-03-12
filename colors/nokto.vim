@@ -22,7 +22,7 @@ hi IncSearch	term=reverse	ctermbg=Black		ctermfg=White
 hi LineNr		term=underline						ctermfg=DarkGrey									guifg=DarkGray
 hi Normal						ctermbg=Black		ctermfg=White						guibg=Black		guifg=White
 hi NonText		term=bold							ctermfg=LightRed	gui=bold		guibg=grey30	guifg=LightBlue
-hi Search		term=reverse	ctermbg=Yellow		ctermfg=Black						guibg=Yellow	guifg=Black
+hi Search		term=reverse	ctermbg=Green		ctermfg=Black						guibg=Green	guifg=Black
 hi Special		term=reverse						ctermfg=Yellow										guifg=Yellow
 hi Statement	term=reverse						ctermfg=DarkCyan									guifg=LightBlue
 hi Constant		term=reverse						ctermfg=Blue										guifg=SlateBlue

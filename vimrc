@@ -64,10 +64,13 @@ set hls is
 set listchars=eol:$,tab:\|-
 
 "Tabs
-set ts=4 sw=4 et
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 "numbering (3 cols)
-set nu nuw=3
+set number
+set numberwidth=3
 
 "mark wrapped lines with a "+":
 set showbreak=+
@@ -76,6 +79,9 @@ set showbreak=+
 set ai
 
 set ruler
+
+set laststatus=2
+set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
 "MAPS
 
@@ -89,5 +95,139 @@ imap jj <Esc>
 "inoremap <buffer> <Enter> <CR><Space><C-H>
 
 "ml:
-map <F9> :set hls! hls?<CR>
+map <F9> :set hlsearch! hlsearch?<CR>
 "imap <F9> <C-O>:set hls! hls?<CR>
+
+
+"""""""""" PLUGINS (vim-plug)
+" After adding a plugin, to activate run:
+"     :PlugInstall to install plugins
+"     :PlugUpdate  to update plugins
+"     :PlugDiff    to review the changes from the last update
+"     :PlugClean   to remove plugins no longer in the list
+" For more information, see https://github.com/junegunn/vim-plug
+"
+call plug#begin()
+
+Plug 'tpope/vim-dotenv'
+
+Plug 'tpope/vim-fugitive'
+"let g:fugitive_git_executable = 'git -c color.ui=always'
+
+Plug 'airblade/vim-gitgutter'
+
+"Plug 'preservim/nerdtree'
+
+"Plug 'ubaldot/vim-conda-activate'
+"Plug 'cjrh/vim-conda'
+
+Plug 'jpalardy/vim-slime'
+let g:slime_target = "vimterminal"
+
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
+
+call plug#end()
+
+
+" Define function to ask for a conda environment
+function! LaunchPythonWithEnv()
+  let l:conda_json = system('conda env list --json')
+  if v:shell_error
+    echoerr "Failed to list Conda environments"
+    return
+  endif
+
+  let l:parsed = json_decode(l:conda_json)
+  let l:env_paths = get(l:parsed, 'envs', [])
+
+  if empty(l:env_paths)
+    echoerr "No Conda environments found"
+    return
+  endif
+
+  let l:env_names = map(copy(l:env_paths), { _, val -> fnamemodify(val, ':t') })
+  let l:numbered_envs = map(copy(l:env_names), { idx, val -> (idx + 1) . '. ' . val })
+  let l:choices = ['Select Conda environment:'] + l:numbered_envs
+  let l:selection = inputlist(l:choices)
+
+  if l:selection <= 0 || l:selection > len(l:env_names)
+    echo "No environment selected"
+    return
+  endif
+
+  let l:env = l:env_names[l:selection - 1]
+  let b:slime_vimterminal_cmd = 'C:\Users\Mongeau\OneDrive - Food and Agriculture Organization\Documents\activate_conda_environment.bat ' . l:env
+
+  echo "\nSelected Conda environment: " . l:env
+
+  " Trigger slime to open the terminal using the configured command
+  execute 'SlimeConfig'
+endfunction
+
+" Map \cc to launch conda environment selection
+" NOTE: <C-\><C-n> to go normal mode in terminal
+augroup PythonSlimeEnv
+  autocmd!
+  autocmd FileType python nnoremap <buffer> <leader>cc :call LaunchPythonWithEnv()<CR>
+augroup END
+
+
+" Config vars
+let g:dbs = {}
+
+let s:private_env = expand('~/vimfiles/private/env.vim')
+
+if filereadable(s:private_env)
+  execute 'source ' . fnameescape(s:private_env)
+endif
+" / Config vars
+
+
+" dadbod (database related)
+let g:dadbod_shell = ''
+let g:db_ui_execute_on_save = 0
+
+if !empty($DB_MAIN_URL) && !empty($DB_ALT_URL)
+  let g:dbs = {
+  \ 'MAIN': getenv('DB_MAIN_URL'),
+  \ 'ALT':  getenv('DB_ALT_URL'),
+  \ }
+  let g:db = g:dbs['MAIN']
+else
+  echohl WarningMsg
+  echom "dadbod: DB_MAIN_URL or DB_ALT_URL is empty. Check ~/vimfiles/private/env"
+  echohl None
+endif
+
+" Default DB (optional but recommended)
+let g:db = g:dbs['MAIN']
+
+function! DadbodPickDB(...) abort
+  if empty(get(g:, 'dbs', {}))
+    echoerr "No databases configured in g:dbs"
+    return
+  endif
+
+  let l:names = sort(keys(g:dbs))
+  let l:menu = ['Select database:'] + map(copy(l:names), {i,v -> printf('%d. %s', i+1, v)})
+
+  let l:default = index(l:names, get(a:, 1, 'MAIN')) + 1
+  if l:default <= 0 | let l:default = 1 | endif
+
+  let l:choice = inputlist(l:menu)
+  if l:choice <= 0 || l:choice > len(l:names)
+    echo "DB selection cancelled"
+    return
+  endif
+
+  let l:selected = l:names[l:choice - 1]
+  let g:db = g:dbs[l:selected]
+  execute 'DB' g:db
+  echo 'Connected to ' . l:selected
+endfunction
+
+command! -nargs=? DBPick call DadbodPickDB(<f-args>)
+
+" /dadbod

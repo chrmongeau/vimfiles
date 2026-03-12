@@ -1,3 +1,5 @@
 .VimballRecord
 .netrwhist
 .*sw[a-z]
+private/
+plugged/
