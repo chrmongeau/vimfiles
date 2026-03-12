@@ -98,6 +98,15 @@ inoremap jj <Esc>
 
 nnoremap <F9> :set hlsearch! hlsearch?<CR>
 
+" Codetags highlighted like TODO in comments
+augroup ExtraTodo
+  autocmd!
+  autocmd Syntax * syntax keyword ExtraTodo BUG NOTE HACK FIXME CHANGED
+        \ OPTIMIZE WARNING IMPORTANT REVIEW NB ATT XXX
+        \ containedin=.*Comment,.*Comment.*
+  autocmd Syntax * highlight default link ExtraTodo Todo
+augroup END
+
 
 """""""""" PLUGINS (vim-plug)
 " After adding a plugin, to activate run:
