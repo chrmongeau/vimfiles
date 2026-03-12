@@ -8,6 +8,8 @@ endif
 
 let &directory = '.,' . s:vim_tmp
 let &backupdir = s:vim_tmp
+let &undodir = s:vim_tmp
+set undofile
 
 " vimwiki
 let g:vimwiki_folding=1
@@ -17,9 +19,9 @@ filetype plugin indent on
 
 "set backspace=start,eol
 
-set enc=utf-8
-set fencs=ucs-bom,utf-8,latin1
-set fenc=utf-8
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,latin1
+set fileencoding=utf-8
 
 "set guifont=
 "set guifontwide=
@@ -37,9 +39,9 @@ set wildmenu wildmode=longest:full
 
 set diffopt=filler,horizontal
 
-set showcmd
+set hidden
 
-set pastetoggle=<F5>
+set showcmd
 
 "Look
 colorscheme nokto
@@ -58,7 +60,7 @@ set formatlistpat=^\\s*\\(\\d\\\|[-*]\\)\\+[\\]:.)}\\t\ ]\\s*
 syntax enable
 
 "Search
-set hls is
+set hlsearch incsearch
 
 "For :set list
 set listchars=eol:$,tab:\|-
@@ -76,7 +78,7 @@ set numberwidth=3
 set showbreak=+
 
 "indentation
-set ai
+set autoindent
 
 set ruler
 
@@ -85,17 +87,24 @@ set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P
 
 "MAPS
 
-map <Leader>n :if &nu<CR>set nonu showbreak=+<CR>else<CR>set nu showbreak=""<CR>endif<CR><CR>
+function! s:ToggleNumber() abort
+  if &number
+    set nonumber showbreak=+
+  else
+    set number showbreak=
+  endif
+endfunction
+nnoremap <Leader>n :call <SID>ToggleNumber()<CR>
 
-map <Space> <PageDown>
+nnoremap <Space> <PageDown>
 
-imap jj <Esc>
+inoremap jj <Esc>
 
 "inoremap <CR> <CR><Space><BS>
 "inoremap <buffer> <Enter> <CR><Space><C-H>
 
 "ml:
-map <F9> :set hlsearch! hlsearch?<CR>
+nnoremap <F9> :set hlsearch! hlsearch?<CR>
 "imap <F9> <C-O>:set hls! hls?<CR>
 
 
@@ -200,9 +209,6 @@ else
   echom "dadbod: DB_MAIN_URL or DB_ALT_URL is empty. Check ~/vimfiles/private/env"
   echohl None
 endif
-
-" Default DB (optional but recommended)
-let g:db = g:dbs['MAIN']
 
 function! DadbodPickDB(...) abort
   if empty(get(g:, 'dbs', {}))
