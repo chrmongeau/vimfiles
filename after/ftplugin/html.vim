@@ -2,7 +2,7 @@
 " http://www.nabble.com/How-do-I-define-a-function-in-an-autocmd--td20436313.html
 imap <buffer> <Leader>l <Esc>:call <SID>HTMLahref()<CR>
 imap <buffer> <Leader>s <Esc>:call <SID>HTMLinline("span")<CR>
-imap <buffer> <Leader>a <Esc>:call <SID>HTMLinline("acronym")<CR>
+imap <buffer> <Leader>a <Esc>:call <SID>HTMLinline("abbr")<CR>
 
 setlocal tw=76
 

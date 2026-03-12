@@ -1,3 +1,7 @@
+" NOTE: LaunchPythonWithEnv() below has a hardcoded OneDrive path for
+" activate_conda_environment.bat — update it if your username or OneDrive
+" folder changes.
+
 " Define tmp dir (for `directory` and `backupdir`
 let s:vim_tmp = expand('~/tmp/vim')
 
@@ -17,18 +21,13 @@ let g:vimwiki_folding=1
 " File-type detection
 filetype plugin indent on
 
-"set backspace=start,eol
-
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,latin1
 set fileencoding=utf-8
 
-"set guifont=
-"set guifontwide=
-
 if has('gui_running')
   set guifont=Consolas:h10
-    set lines=999 columns=82
+  set lines=999 columns=82
 endif
 
 set colorcolumn=77
@@ -49,9 +48,6 @@ set guicursor=a:block-blinkon0
 
 set helpheight=15
 
-
-"backupdir=expand("%:p:h")
-".fnamemodify(expand("%:p"),":gs?/?-?")
 
 "ATT: * is a list item:
 set formatlistpat=^\\s*\\(\\d\\\|[-*]\\)\\+[\\]:.)}\\t\ ]\\s*
@@ -100,12 +96,7 @@ nnoremap <Space> <PageDown>
 
 inoremap jj <Esc>
 
-"inoremap <CR> <CR><Space><BS>
-"inoremap <buffer> <Enter> <CR><Space><C-H>
-
-"ml:
 nnoremap <F9> :set hlsearch! hlsearch?<CR>
-"imap <F9> <C-O>:set hls! hls?<CR>
 
 
 """""""""" PLUGINS (vim-plug)
@@ -121,14 +112,8 @@ call plug#begin()
 Plug 'tpope/vim-dotenv'
 
 Plug 'tpope/vim-fugitive'
-"let g:fugitive_git_executable = 'git -c color.ui=always'
 
 Plug 'airblade/vim-gitgutter'
-
-"Plug 'preservim/nerdtree'
-
-"Plug 'ubaldot/vim-conda-activate'
-"Plug 'cjrh/vim-conda'
 
 Plug 'jpalardy/vim-slime'
 let g:slime_target = "vimterminal"

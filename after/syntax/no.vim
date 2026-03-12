@@ -21,16 +21,16 @@ syn match MyLink "\s{\S\_.\{-}\S}" contains=Marks
 
 syn match IsLink "\[\[.\{-}\]\]" contains=LinkMarks
 
-" The actual colours:
-hi Head1		term=bold	ctermbg=Yellow		ctermfg=Black	guibg=Yellow	guifg=Blue
-hi Head2		term=bold	ctermbg=Red			ctermfg=Black	guibg=Red		guifg=Black
-hi Head3		term=bold	ctermbg=Blue		ctermfg=Yellow	guibg=Blue		guifg=Yellow
-hi Head4		term=bold	ctermbg=DarkGreen	ctermfg=White	guibg=DarkGreen	guifg=White
-hi Emph1		term=bold	ctermbg=Yellow		ctermfg=Blue	guibg=White		guifg=Black
-hi Emph2		term=bold	ctermbg=Yellow		ctermfg=Blue	gui=underline
-hi IsLink		term=bold	ctermbg=DarkGreen	ctermfg=White	guibg=Red		guifg=White
-hi MyTag		term=bold	ctermbg=DarkGreen	ctermfg=White	guibg=Red		guifg=White
-hi MyLink		term=bold	ctermbg=DarkBlue	ctermfg=White	guibg=Red		guifg=White
+" The actual colours (designed for dark backgrounds):
+hi Head1		term=bold	cterm=bold	ctermfg=Yellow		guifg=#d7d75f	gui=bold
+hi Head2		term=bold	cterm=bold	ctermfg=Red			guifg=#ff5f5f	gui=bold
+hi Head3		term=bold	cterm=bold	ctermfg=Cyan		guifg=#5fd7d7	gui=bold
+hi Head4		term=bold	cterm=bold	ctermfg=Green		guifg=#5fd75f	gui=bold
+hi Emph1		term=bold	cterm=bold	ctermfg=White		guifg=#e8e8e8	gui=bold
+hi Emph2		term=underline	cterm=underline	ctermfg=White	guifg=#e8e8e8	gui=underline
+hi IsLink		term=underline	cterm=underline	ctermfg=Magenta	guifg=#d75fd7	gui=underline
+hi MyTag		term=bold	ctermfg=LightGreen				guifg=#87d787
+hi MyLink		term=underline	cterm=underline	ctermfg=LightBlue	guifg=#87afff	gui=underline
 
 " help.vim:
 syn match Marks contained "\s\?\(\*\|_\||\|{\|}\)"

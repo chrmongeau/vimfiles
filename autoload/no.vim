@@ -75,7 +75,7 @@ function! no#OpenLocationNO()
 	endif
 endfu
 
-function! no#DrecreaseLevel()
+function! no#DecreaseLevel()
 	normal 0
 	let cursor1 = getpos('.')
 	normal ^
