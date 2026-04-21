@@ -58,10 +58,12 @@ Custom filetype detection is in `filetype.vim`.
 
 ## Codetags
 
-Common attention keywords are highlighted in comments across all filetypes:
-`BUG`, `NOTE`, `HACK`, `FIXME`, `CHANGED`, `OPTIMIZE`, `WARNING`,
-`IMPORTANT`, `REVIEW`, `NB`, `ATT`, `XXX` (in addition to the built-in
-`TODO`).
+The mnemonics defined by [PEP 350](https://peps.python.org/pep-0350/) are
+highlighted in comments across all filetypes — both the canonical forms
+(`TODO`, `FIXME`, `BUG`, `NOBUG`, `RFE`, `IDEA`, `REQ`, `NOTE`, `ALERT`,
+`HACK`, `PORT`, `CAVEAT`, `TODOC`, `FAQ`, `GLOSS`, `SEE`, `CRED`, `STAT`,
+`RVD`, plus `???` and `!!!`) and their listed synonyms (e.g. `XXX`,
+`WONTFIX`, `WARNING`, `REFACTOR`, ...).
 
 ## Directory layout
 

@@ -98,11 +98,11 @@ inoremap jj <Esc>
 
 nnoremap <F9> :set hlsearch! hlsearch?<CR>
 
-" Codetags highlighted like TODO in comments
+" PEP 350 codetags highlighted like TODO in comments (https://peps.python.org/pep-0350/)
 augroup ExtraTodo
   autocmd!
   autocmd Syntax * syntax match ExtraTodo
-        \ /\C\<\(BUG\|NOTE\|HACK\|FIXME\|CHANGED\|OPTIMIZE\|WARNING\|IMPORTANT\|REVIEW\|NB\|ATT\|XXX\)\>/
+        \ /\C\(\<\(TODO\|MILESTONE\|MLSTN\|DONE\|YAGNI\|TBD\|TOBEDONE\|FIXME\|XXX\|DEBUG\|BROKEN\|REFACTOR\|REFACT\|RFCTR\|OOPS\|SMELL\|NEEDSWORK\|INSPECT\|RFE\|FEETCH\|NYI\|FR\|FTRQ\|FTR\|IDEA\|BUG\|BUGFIX\|NOBUG\|NOFIX\|WONTFIX\|DONTFIX\|NEVERFIX\|UNFIXABLE\|CANTFIX\|REQ\|REQUIREMENT\|STORY\|NOTE\|HELP\|QUESTION\|QUEST\|QSTN\|WTF\|ALERT\|HACK\|CLEVER\|MAGIC\|PORT\|PORTABILITY\|WKRD\|CAVEAT\|CAV\|CAVT\|WARNING\|CAUTION\|TODOC\|DOCDO\|DODOC\|NEEDSDOC\|EXPLAIN\|DOCUMENT\|FAQ\|GLOSS\|GLOSSARY\|SEE\|REF\|REFERENCE\|CRED\|CREDIT\|THANKS\|STAT\|STATUS\|RVD\|REVIEWED\|REVIEW\)\>\|???\|!!!\)/
         \ containedin=.*Comment,.*Comment.*
   autocmd Syntax * highlight default link ExtraTodo Todo
 augroup END
@@ -131,7 +131,21 @@ Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
+Plug 'lambdalisue/vim-fern'
+Plug 'lambdalisue/vim-fern-git-status'
 call plug#end()
+
+"""""""" Fern
+" Use <Leader>ee to choose a dir and set wd there
+nnoremap <silent> <Leader>ee :<C-u>Fern <C-r>=<SID>smart_path()<CR><CR>
+
+function! s:smart_path() abort
+  if !empty(&buftype) || bufname('%') =~# '^[^:]\+://'
+    return fnamemodify('.', ':p')
+  endif
+  return fnamemodify(expand('%'), ':p:h')
+endfunction
+"""""""" / Fern
 
 
 " Define function to ask for a conda environment

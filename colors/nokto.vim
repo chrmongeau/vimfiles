@@ -31,7 +31,7 @@ hi Todo         term=standout   ctermbg=Yellow      ctermfg=Black               
 hi Ignore                                           ctermfg=236                                         guifg=#303030
 
 " --- UI groups ---
-hi LineNr       term=NONE                           ctermfg=239                                         guifg=#4e4e4e
+hi LineNr       term=NONE                           ctermfg=242                                         guifg=#6c6c6c
 hi CursorLine   term=NONE       ctermbg=235         cterm=NONE                          guibg=#262626   gui=NONE
 hi CursorColumn term=NONE       ctermbg=235                                             guibg=#262626
 hi ColorColumn                  ctermbg=235                                             guibg=#262626
