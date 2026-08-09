@@ -194,7 +194,13 @@ augroup END
 " Config vars
 let g:dbs = {}
 
-let s:private_env = expand('~/vimfiles/private/env.vim')
+" Secrets live beside this file, in a gitignored private/ directory, and are
+" NOT hardcoded to ~/vimfiles: that is the runtime dir on Windows only, so
+" the old path silently never matched on Linux or WSL, where vim uses ~/.vim.
+" Deriving it from this script's own location covers both with no conditional.
+" Real environment variables, if the machine sets any, win over this file --
+" it is only sourced to fill gaps, and dadbod checks the variables below.
+let s:private_env = expand('<sfile>:p:h') . '/private/env.vim'
 
 if filereadable(s:private_env)
   execute 'source ' . fnameescape(s:private_env)
@@ -214,7 +220,7 @@ if !empty($DB_MAIN_URL) && !empty($DB_ALT_URL)
   let g:db = g:dbs['MAIN']
 else
   echohl WarningMsg
-  echom "dadbod: DB_MAIN_URL or DB_ALT_URL is empty. Check ~/vimfiles/private/env"
+  echom "dadbod: DB_MAIN_URL or DB_ALT_URL is empty. Set them in the environment, or in " . s:private_env
   echohl None
 endif
 
